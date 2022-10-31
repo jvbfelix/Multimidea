@@ -1,7 +1,7 @@
 <template>
   <div class="mapContainer">
     <p v-if="hasEnd">Parabéns!Você finalizou sua rota!</p>
-    <div class="imgCont" v-if="hasLink" v-on:click="hasLink = false">
+    <div class="imgCont" v-if="hasLink" v-on:click="ImgClose()">
       <img :src="currentLink" />
     </div>
     <l-map
@@ -123,7 +123,9 @@ export default {
     PointPP() {
       this.getUserPosition();
       this.hasLink = true;
-      this.currentLink = this.points["pontos"];
+    },
+    ImgClose() {
+      this.hasLink = false;
       if (this.points["pontos"].length > this.currentPointIdx + 1) {
         this.currentPointIdx += 1;
       } else {
