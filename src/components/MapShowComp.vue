@@ -1,6 +1,9 @@
 <template>
   <div class="mapContainer">
     <p v-if="hasEnd">Parabéns!Você finalizou sua rota!</p>
+    <div class="imgCont" v-if="hasLink" v-on:click="hasLink = false">
+      <img :src="currentLink" />
+    </div>
     <l-map
       style="height: 70vh"
       ref="map"
@@ -57,6 +60,7 @@ export default {
       userLocation: {},
       radius: 40,
       currentPointIdx: 0,
+      hasLink: false,
       hasEnd: false,
       icon: icon({
         iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -85,6 +89,9 @@ export default {
     },
     currentPoint() {
       return this.points["pontos"][this.currentPointIdx][1];
+    },
+    currentLink() {
+      return this.points["pontos"][this.currentPointIdx][2];
     },
     getPosition() {
       return JSON.parse(JSON.stringify(this.position));
@@ -115,6 +122,8 @@ export default {
     },
     PointPP() {
       this.getUserPosition();
+      this.hasLink = true;
+      this.currentLink = this.points["pontos"];
       if (this.points["pontos"].length > this.currentPointIdx + 1) {
         this.currentPointIdx += 1;
       } else {
@@ -149,6 +158,18 @@ export default {
     background-color: #42b98355;
     position: absolute;
     z-index: 10000;
+  }
+
+  .imgCont {
+    height: 100%;
+    width: 100%;
+    font-weight: bold;
+    background-color: #42b983aa;
+    position: absolute;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
